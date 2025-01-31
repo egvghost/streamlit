@@ -171,7 +171,7 @@ if not st.session_state.game_over:
             check_game_status()
             st.rerun()
     with col2:
-        if st.button("Stand", key="stand") or (flag.exist and flag):
+        if st.button("Stand", key="stand") or (flag in locals() and flag):
             st.session_state.hide_card = False
             flag = False
             dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
