@@ -87,8 +87,9 @@ def get_points(cards, hidden=False):
                 v = 1
                 aces += 1
             points += v
-    if points <= 11 and aces > 0:
+    while points <= 11 and aces > 0:
         points += 10
+        aces -= 1
     return points
 
 def show_cards(cards, hidden=False):
@@ -164,6 +165,7 @@ if not st.session_state.game_over:
     if st.button("Hit"):
         st.session_state.player_cards.append(hit())
         check_game_status()
+        st.experimental_rerun()
     if st.button("Stand"):
         st.session_state.hide_card = False
         dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
@@ -171,8 +173,10 @@ if not st.session_state.game_over:
             st.session_state.dealer_cards.append(hit())
             dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
         check_game_status()
+        st.experimental_rerun()
 
 st.write(st.session_state.message)
 
 if st.session_state.game_over and st.button("Play again"):
     reset_game()
+    st.experimental_rerun()
