@@ -93,42 +93,34 @@ def get_points(cards, hidden=False):
     return points
 
 def show_cards(cards, hidden=False):
-    row1, row2, row3, row4, row5, row6 = [], [], [], [], [], []
+    rows = [[] for _ in range(6)]
     start = 0
     if hidden:
-        row1.append(' _______ ')
-        row2.append("|       |")
-        row3.append("| ##### |")
-        row4.append("| ##### |")
-        row5.append("| ##### |")
-        row6.append("'_______'")
+        rows[0].append(' _______ ')
+        rows[1].append("|       |")
+        rows[2].append("| ##### |")
+        rows[3].append("| ##### |")
+        rows[4].append("| ##### |")
+        rows[5].append("'_______'")
         start = 1
     for item in range(start, len(cards)):
         for k, v in cards[item].items():
             if v == 10:
-                row1.append(' _______ ')
-                row2.append("|       |")
-                row3.append(f"| {v}    |")
-                row4.append(f"|   {k}   |")
-                row5.append(f"|    {v} |")
-                row6.append("'_______'")
+                rows[0].append(' _______ ')
+                rows[1].append("|       |")
+                rows[2].append(f"| {v}    |")
+                rows[3].append(f"|   {k}   |")
+                rows[4].append(f"|    {v} |")
+                rows[5].append("'_______'")
             else:
-                row1.append(' _______ ')
-                row2.append("|       |")
-                row3.append(f"| {v}     |")
-                row4.append(f"|   {k}   |")
-                row5.append(f"|     {v} |")
-                row6.append("'_______'")
+                rows[0].append(' _______ ')
+                rows[1].append("|       |")
+                rows[2].append(f"| {v}     |")
+                rows[3].append(f"|   {k}   |")
+                rows[4].append(f"|     {v} |")
+                rows[5].append("'_______'")
 
-    card_image = "\n".join([
-        " ".join(row1),
-        " ".join(row2),
-        " ".join(row3),
-        " ".join(row4),
-        " ".join(row5),
-        " ".join(row6)
-    ])
-    
+    card_image = "\n".join([" ".join(row) for row in rows])
     st.code(card_image, language='text')
 
 def check_game_status():
