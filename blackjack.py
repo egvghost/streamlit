@@ -13,7 +13,7 @@
 '''
 
 import random
-from time import sleep
+import time
 import streamlit as st
 
 # Constants:
@@ -178,7 +178,7 @@ if not st.session_state.game_over:
                 st.session_state.dealer_cards.append(hit())
                 check_game_status()
                 st.rerun()
-                #sleep(1)
+                time.sleep(1)
     with col3:
         pass
 
