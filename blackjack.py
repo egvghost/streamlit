@@ -157,6 +157,11 @@ dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_
 player_points = get_points(st.session_state.player_cards)
 check_game_status()
 
+st.write(f"Dealer: {dealer_points} {st.session_state.dealer_bj}")
+show_cards(st.session_state.dealer_cards, st.session_state.hide_card)
+st.write(f"\nPlayer: {player_points} {st.session_state.player_bj}")
+show_cards(st.session_state.player_cards)
+
 # Adding unique keys to buttons to force rerun
 if not st.session_state.game_over:
     col1, col2, col3 = st.columns([1, 1, 7], gap="small")
@@ -177,11 +182,8 @@ if not st.session_state.game_over:
     with col3:
         pass
 
-st.write(f"Dealer: {dealer_points} {st.session_state.dealer_bj}")
-show_cards(st.session_state.dealer_cards, st.session_state.hide_card)
-st.write(f"\nPlayer: {player_points} {st.session_state.player_bj}")
-show_cards(st.session_state.player_cards)
-
+check_game_status()
+st.rerun()
 st.write(st.session_state.message)
 
 if st.session_state.game_over and st.button("Play again", key="play_again"):
