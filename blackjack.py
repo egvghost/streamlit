@@ -182,7 +182,7 @@ if not st.session_state.game_over:
     if st.button("Stand"):
         st.session_state.hide_card = False
         dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
-        while dealer_points < 17 or (dealer_points <= player_points and dealer_points < 21):
+        while dealer_points < 17:
             st.session_state.dealer_cards.append(hit())
             dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
         check_game_status()
