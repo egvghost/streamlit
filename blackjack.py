@@ -177,7 +177,6 @@ if not st.session_state.game_over:
                 st.session_state.dealer_cards.append(hit())
                 check_game_status()
                 st.rerun()
-                pause(1)
     with col3:
         pass
 
