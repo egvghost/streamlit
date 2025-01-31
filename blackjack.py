@@ -72,6 +72,7 @@ def initialize_game():
     deal()
 
 if 'given_cards' not in st.session_state:
+    dealer_turn = False
     initialize_game()
 
 def get_points(cards, hidden=False):
@@ -171,7 +172,7 @@ if not st.session_state.game_over:
             check_game_status()
             st.rerun()
     with col2:
-        if st.button("Stand", key="stand") or not dealer_turn.exist or (dealer_turn.exist and dealer_turn):
+        if st.button("Stand", key="stand") or dealer_turn:
             st.session_state.hide_card = False
             dealer_turn = False
             dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
