@@ -178,7 +178,6 @@ if not st.session_state.game_over:
             while dealer_points < 17:
                 st.session_state.dealer_cards.append(hit())
                 check_game_status()
-                st.rerun()
                 time.sleep(1)
     with col3:
         pass
