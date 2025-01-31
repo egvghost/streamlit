@@ -37,6 +37,9 @@ CLUBS    = chr(9827) # Character 9827 is '♣'.
 numbers = ['A', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K']
 suits = [HEARTS, DIAMONDS, SPADES, CLUBS]
 
+dealer_cards = []
+player_cards = []
+
 def hit():
   new_card = {suits[random.randint(0, 3)]: numbers[random.randint(0, 12)]}
   # Avoid card duplicates
@@ -157,8 +160,6 @@ def main():
     # Shuffle cards
     given_cards = {HEARTS: [], DIAMONDS: [], SPADES: [], CLUBS: []}
     hide_card = True
-    dealer_cards = []
-    player_cards = []
     player_bj = ''
     dealer_bj = ''
     deal()
