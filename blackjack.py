@@ -181,8 +181,6 @@ if not st.session_state.game_over:
                 pause(1)
     with col3:
         pass
-    check_game_status()
-    st.rerun()
 
 st.write(st.session_state.message)
 
