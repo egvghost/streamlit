@@ -180,3 +180,4 @@ st.write(st.session_state.message)
 
 if st.session_state.game_over and st.button("Play again", key="play_again"):
     reset_game()
+    st.rerun()
