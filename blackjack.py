@@ -152,56 +152,60 @@ def get_points(cards, hidden = False):
     points += 10
   return points
       
-while True:
-  # Shuffle cards
-  given_cards = {HEARTS: [], DIAMONDS: [], SPADES: [], CLUBS: []}
-  hide_card = True
-  dealer_cards = []
-  player_cards = []
-  player_bj = ''
-  dealer_bj = ''
-  deal()
+def main():
   while True:
-    system('clear')
-    print(blackjack_logo)
-    dealer_points = get_points(dealer_cards, hide_card)
-    player_points = get_points(player_cards)
-    if (player_points == 21) and (len(player_cards) == 2):
-      hide_card = False
-      player_bj = 'BLACKJACK !!!'
-    if (dealer_points == 21) and (len(dealer_cards) == 2):
-      dealer_bj = 'BLACKJACK !!!'
-    print(f"Dealer: {dealer_points} {dealer_bj}")
-    show_cards(dealer_cards, hide_card)
-    print(f"\nPlayer: {player_points} {player_bj}")
-    show_cards(player_cards)
-    if (dealer_points > 21) or ((player_points > dealer_points) and not hide_card) or (player_bj and not dealer_bj):
-      print("\n** YOU WON !! :) **")
-      break
-    elif (player_points > 21) or ((dealer_points > player_points) and not hide_card) or (dealer_bj and not player_bj):
-      print("\n** YOU LOST :( **")
-      break
-    elif (dealer_points == player_points) and not hide_card:
-      print("\n** DRAW :| **")
-      break
-    else:
-      #player_choice = input("\n(H)it, (S)tand ")
-      player_choice = st.radio("Choose your move", ["(H)it", "(S)tand"], index=None) 
-      if player_choice == "(H)it":
-        player_cards.append(hit())
-      elif player_choice == "(S)tand":
+    # Shuffle cards
+    given_cards = {HEARTS: [], DIAMONDS: [], SPADES: [], CLUBS: []}
+    hide_card = True
+    dealer_cards = []
+    player_cards = []
+    player_bj = ''
+    dealer_bj = ''
+    deal()
+    while True:
+      system('clear')
+      print(blackjack_logo)
+      dealer_points = get_points(dealer_cards, hide_card)
+      player_points = get_points(player_cards)
+      if (player_points == 21) and (len(player_cards) == 2):
         hide_card = False
-        dealer_points = get_points(dealer_cards, hide_card)
-        while dealer_points < 17:
-          dealer_cards.append(hit())
+        player_bj = 'BLACKJACK !!!'
+      if (dealer_points == 21) and (len(dealer_cards) == 2):
+        dealer_bj = 'BLACKJACK !!!'
+      print(f"Dealer: {dealer_points} {dealer_bj}")
+      show_cards(dealer_cards, hide_card)
+      print(f"\nPlayer: {player_points} {player_bj}")
+      show_cards(player_cards)
+      if (dealer_points > 21) or ((player_points > dealer_points) and not hide_card) or (player_bj and not dealer_bj):
+        print("\n** YOU WON !! :) **")
+        break
+      elif (player_points > 21) or ((dealer_points > player_points) and not hide_card) or (dealer_bj and not player_bj):
+        print("\n** YOU LOST :( **")
+        break
+      elif (dealer_points == player_points) and not hide_card:
+        print("\n** DRAW :| **")
+        break
+      else:
+        #player_choice = input("\n(H)it, (S)tand ")
+        player_choice = st.radio("Choose your move", ["(H)it", "(S)tand"], index=None) 
+        if player_choice == "(H)it":
+          player_cards.append(hit())
+        elif player_choice == "(S)tand":
+          hide_card = False
           dealer_points = get_points(dealer_cards, hide_card)
+          while dealer_points < 17:
+            dealer_cards.append(hit())
+            dealer_points = get_points(dealer_cards, hide_card)
 
-  # print(f"Dealer: {dealer_cards}")
-  # print(f"Player: {player_cards}")
-  # print(f"Given cards: {given_cards}")
-  #keep_playing = input("\nPlay again? (Y)/(N) ")
-  keep_playing = st.radio("\nPlay again?", ["Yes", "No"], index=None) 
-  while keep_playing.lower() not in ['yes', 'no']:
+    # print(f"Dealer: {dealer_cards}")
+    # print(f"Player: {player_cards}")
+    # print(f"Given cards: {given_cards}")
+    #keep_playing = input("\nPlay again? (Y)/(N) ")
     keep_playing = st.radio("\nPlay again?", ["Yes", "No"], index=None) 
-  if keep_playing.lower() == 'n':
-    break
+    while keep_playing.lower() not in ['yes', 'no']:
+      keep_playing = st.radio("\nPlay again?", ["Yes", "No"], index=None) 
+    if keep_playing.lower() == 'n':
+      break
+
+if __name__ == '__main__':
+    main()
