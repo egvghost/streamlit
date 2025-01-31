@@ -14,6 +14,7 @@
 
 import random
 from os import system
+import streamlit as st
 
 blackjack_logo = '''
 .--------.            _     _            _    _            _    
@@ -184,10 +185,11 @@ while True:
       print("\n** DRAW :| **")
       break
     else:
-      player_choice = input("\n(H)it, (S)tand ")
-      if player_choice.lower() == 'h':
+      #player_choice = input("\n(H)it, (S)tand ")
+      player_choice = st.radio("Choose your move", "(H)it", "(S)tand") 
+      if player_choice == "(H)it":
         player_cards.append(hit())
-      elif player_choice.lower() == 's':
+      elif player_choice == "(S)tand":
         hide_card = False
         dealer_points = get_points(dealer_cards, hide_card)
         while dealer_points < 17:
@@ -197,8 +199,9 @@ while True:
   # print(f"Dealer: {dealer_cards}")
   # print(f"Player: {player_cards}")
   # print(f"Given cards: {given_cards}")
-  keep_playing = input("\nPlay again? (Y)/(N) ")
-  while keep_playing.lower() not in ['y', 'n']:
-    keep_playing = input("Play again? (Y)/(N) ")
+  #keep_playing = input("\nPlay again? (Y)/(N) ")
+  keep_playing = st.radio("\nPlay again?", "Yes", "No") 
+  while keep_playing.lower() not in ['yes', 'no']:
+    keep_playing = st.radio("\nPlay again?", "Yes", "No") 
   if keep_playing.lower() == 'n':
     break
