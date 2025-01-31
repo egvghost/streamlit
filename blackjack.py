@@ -30,10 +30,10 @@ blackjack_logo = '''
 .--------.            _     _            _    _            _    
 | A_  _  |           | |   | |          | |  (_)          | |   
 | ( \/ ).--------.   | |__ | | __ _  ___| | ___  __ _  ___| | __
-|  \  / | K /\   |   | '_ \| |/ _` |/ __| |/ / |/ _` |/ __| |/ /
-|   \/ A|  /  \  |   | |_) | | (_| | (__|   <| | (_| | (__|   < 
-'-------|  \  /  |   |_.__/|_|\__,_|\___|_|\_\ |\__,_|\___|_|\_\ 
-        |   \/ K |                          _/ |                
+|  \\  / | K /\\   |   | '_ \\| |/ _` |/ __| |/ / |/ _` |/ __| |/ /
+|   \\/ A|  /  \\  |   | |_) | | (_| | (__|   <| | (_| | (__|   < 
+'-------|  \\  /  |   |_.__/|_|\\__,_|\\___|_|\\_\\ |\\__,_|\\___|_|\\_\\ 
+        |   \\/ K |                          _/ |                
         '--------'                         |__/                 
 '''
 
@@ -172,9 +172,10 @@ if not st.session_state.game_over:
         while dealer_points < 17 or (dealer_points < player_points and dealer_points < 21):
             st.session_state.dealer_cards.append(hit())
             dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
+        st.session_state.hide_card = False  # Ensure dealer's cards are revealed
         check_game_status()
         st.write(f"Dealer: {dealer_points} {st.session_state.dealer_bj}")
-        show_cards(st.session_state.dealer_cards, st.session_state.hide_card)
+        show_cards(st.session_state.dealer_cards)  # Show dealer's cards without hiding
 
 st.write(st.session_state.message)
 
