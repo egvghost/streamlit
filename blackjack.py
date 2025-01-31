@@ -72,7 +72,7 @@ def initialize_game():
     st.session_state.dealer_turn = False
     deal()
 
-if ['given_cards', 'dealer_turn'] not in st.session_state:
+if not {'given_cards', 'dealer_turn'}.issubset(st.session_state):
     initialize_game()
 
 def get_points(cards, hidden=False):
