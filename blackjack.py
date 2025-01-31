@@ -38,7 +38,7 @@ blackjack_logo = '''
 '''
 
 # Display the logo
-st.markdown(f"<pre>{blackjack_logo}</pre>", unsafe_allow_html=True)
+st.code(blackjack_logo, language='text')
 
 # Initialize session state
 if 'given_cards' not in st.session_state:
@@ -122,12 +122,14 @@ def show_cards(cards, hidden=False):
                 row5.append(f"|     {v} |")
                 row6.append("'_______'")
 
+    st.write("```")
     st.write(" ".join(row1))
     st.write(" ".join(row2))
     st.write(" ".join(row3))
     st.write(" ".join(row4))
     st.write(" ".join(row5))
     st.write(" ".join(row6))
+    st.write("```")
 
 def check_game_status():
     dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
