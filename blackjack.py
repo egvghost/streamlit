@@ -179,8 +179,8 @@ if not st.session_state.game_over:
                 st.session_state.dealer_cards.append(hit())
                 dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
                 check_game_status()
-                st.rerun()
                 time.sleep(1)
+            st.rerun()
     with col3:
         pass
 
