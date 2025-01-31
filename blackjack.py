@@ -69,10 +69,9 @@ def initialize_game():
     st.session_state.dealer_bj = ''
     st.session_state.game_over = False
     st.session_state.message = ''
-    st.session_state.dealer_turn = False
     deal()
 
-if not {'given_cards', 'dealer_turn'}.issubset(st.session_state):
+if 'given_cards' not in st.session_state:
     initialize_game()
 
 def get_points(cards, hidden=False):
@@ -172,18 +171,16 @@ if not st.session_state.game_over:
             check_game_status()
             st.rerun()
     with col2:
-        if st.button("Stand", key="stand") or st.session_state.dealer_turn:
+        if st.button("Stand", key="stand"):
             st.session_state.hide_card = False
-            st.session_state.dealer_turn = False
             dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
             check_game_status()
             while dealer_points < 17:
                 st.session_state.dealer_cards.append(hit())
                 dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
                 check_game_status()
-                time.sleep(1)
-                st.session_state.dealer_turn = True
                 st.rerun()
+                time.sleep(1)
             st.rerun()
     with col3:
         pass
