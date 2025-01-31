@@ -39,6 +39,7 @@ suits = [HEARTS, DIAMONDS, SPADES, CLUBS]
 
 dealer_cards = []
 player_cards = []
+given_cards = {HEARTS: [], DIAMONDS: [], SPADES: [], CLUBS: []}
 
 def hit():
   new_card = {suits[random.randint(0, 3)]: numbers[random.randint(0, 12)]}
@@ -160,6 +161,8 @@ def main():
     # Shuffle cards
     given_cards = {HEARTS: [], DIAMONDS: [], SPADES: [], CLUBS: []}
     hide_card = True
+    dealer_cards = []
+    player_cards = []
     player_bj = ''
     dealer_bj = ''
     deal()
