@@ -175,7 +175,6 @@ if not st.session_state.game_over:
             dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
             while (dealer_points < 17) and (dealer_points < player_points):
                 st.session_state.dealer_cards.append(hit())
-                dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
                 check_game_status()
                 st.rerun()
                 pause(1)
