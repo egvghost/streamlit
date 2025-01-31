@@ -93,34 +93,42 @@ def get_points(cards, hidden=False):
     return points
 
 def show_cards(cards, hidden=False):
-    rows = [[] for _ in range(6)]
+    row1, row2, row3, row4, row5, row6 = [], [], [], [], [], []
     start = 0
     if hidden:
-        rows[0].append(' _______ ')
-        rows[1].append("|       |")
-        rows[2].append("| ##### |")
-        rows[3].append("| ##### |")
-        rows[4].append("| ##### |")
-        rows[5].append("'_______'")
+        row1.append(' _______ ')
+        row2.append("|       |")
+        row3.append("| ##### |")
+        row4.append("| ##### |")
+        row5.append("| ##### |")
+        row6.append("'_______'")
         start = 1
     for item in range(start, len(cards)):
         for k, v in cards[item].items():
             if v == 10:
-                rows[0].append(' _______ ')
-                rows[1].append("|       |")
-                rows[2].append(f"| {v}    |")
-                rows[3].append(f"|   {k}   |")
-                rows[4].append(f"|    {v} |")
-                rows[5].append("'_______'")
+                row1.append(' _______ ')
+                row2.append("|       |")
+                row3.append(f"| {v}    |")
+                row4.append(f"|   {k}   |")
+                row5.append(f"|    {v} |")
+                row6.append("'_______'")
             else:
-                rows[0].append(' _______ ')
-                rows[1].append("|       |")
-                rows[2].append(f"| {v}     |")
-                rows[3].append(f"|   {k}   |")
-                rows[4].append(f"|     {v} |")
-                rows[5].append("'_______'")
+                row1.append(' _______ ')
+                row2.append("|       |")
+                row3.append(f"| {v}     |")
+                row4.append(f"|   {k}   |")
+                row5.append(f"|     {v} |")
+                row6.append("'_______'")
 
-    card_image = "\n".join([" ".join(row) for row in rows])
+    card_image = "\n".join([
+        " ".join(row1),
+        " ".join(row2),
+        " ".join(row3),
+        " ".join(row4),
+        " ".join(row5),
+        " ".join(row6)
+    ])
+    
     st.code(card_image, language='text')
 
 def check_game_status():
@@ -164,10 +172,7 @@ if not st.session_state.game_over:
         while dealer_points < 17 or (dealer_points < player_points and dealer_points < 21):
             st.session_state.dealer_cards.append(hit())
             dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
-        st.session_state.hide_card = False  # Ensure dealer's cards are revealed
-        check_game_status()
-        st.write(f"Dealer: {dealer_points} {st.session_state.dealer_bj}")
-        show_cards(st.session_state.dealer_cards)  # Show dealer's cards without hiding
+            check_game_status()
 
 st.write(st.session_state.message)
 
