@@ -177,6 +177,5 @@ if not st.session_state.game_over:
 
 st.write(st.session_state.message)
 
-if st.session_state.game_over and st.button("Play again"):
+if st.session_state.game_over and st.button("Play again", key="play_again"):
     reset_game()
-    st.query_params(action="play_again")
