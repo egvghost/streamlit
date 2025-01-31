@@ -164,10 +164,10 @@ show_cards(st.session_state.player_cards)
 
 # Adding unique keys to buttons to force rerun
 if not st.session_state.game_over:
+    dealer_turn = False
     col1, col2, col3 = st.columns([1, 1, 7], gap="small")
     with col1:
         if st.button("Hit", key="hit"):
-            dealer_turn = False
             st.session_state.player_cards.append(hit())
             check_game_status()
             st.rerun()
