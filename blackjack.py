@@ -122,14 +122,16 @@ def show_cards(cards, hidden=False):
                 row5.append(f"|     {v} |")
                 row6.append("'_______'")
 
-    st.write("```")
-    st.write(" ".join(row1))
-    st.write(" ".join(row2))
-    st.write(" ".join(row3))
-    st.write(" ".join(row4))
-    st.write(" ".join(row5))
-    st.write(" ".join(row6))
-    st.write("```")
+    card_image = "\n".join([
+        " ".join(row1),
+        " ".join(row2),
+        " ".join(row3),
+        " ".join(row4),
+        " ".join(row5),
+        " ".join(row6)
+    ])
+    
+    st.code(card_image, language='text')
 
 def check_game_status():
     dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
