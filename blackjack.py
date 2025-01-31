@@ -180,7 +180,8 @@ if not st.session_state.game_over:
                 st.session_state.dealer_cards.append(hit())
                 dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
                 check_game_status()
-                time.sleep(1)
+                if flag:
+                    time.sleep(1)
                 flag = True
                 st.rerun()
             st.rerun()
