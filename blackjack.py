@@ -1,0 +1,189 @@
+'''
+    Rules:
+      Try to get as close to 21 without going over.
+      Kings, Queens, and Jacks are worth 10 points.
+      Aces are worth 1 or 11 points.
+      Cards 2 through 10 are worth their face value.
+      (H)it to take another card.
+      (S)tand to stop taking cards.
+      On your first play, you can (D)ouble down to increase your bet
+      but must hit exactly one more time before standing.
+      In case of a tie, the bet is returned to the player.
+      The dealer stops hitting at 17.
+'''
+
+import random
+import streamlit as st
+
+# Constants:
+HEARTS = chr(9829)
+DIAMONDS = chr(9830)
+SPADES = chr(9824)
+CLUBS = chr(9827)
+numbers = ['A', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K']
+suits = [HEARTS, DIAMONDS, SPADES, CLUBS]
+
+# Initialize Streamlit app
+st.title("Blackjack")
+
+blackjack_logo = '''
+.--------.            _     _            _    _            _    
+| A_  _  |           | |   | |          | |  (_)          | |   
+| ( \/ ).--------.   | |__ | | __ _  ___| | ___  __ _  ___| | __
+|  \  / | K /\   |   | '_ \| |/ _` |/ __| |/ / |/ _` |/ __| |/ /
+|   \/ A|  /  \  |   | |_) | | (_| | (__|   <| | (_| | (__|   < 
+'-------|  \  /  |   |_.__/|_|\__,_|\___|_|\_\ |\__,_|\___|_|\_\ 
+        |   \/ K |                          _/ |                
+        '--------'                         |__/                 
+'''
+
+# Display the logo
+st.markdown(f"<pre>{blackjack_logo}</pre>", unsafe_allow_html=True)
+
+# Initialize session state
+if 'given_cards' not in st.session_state:
+    st.session_state.given_cards = {HEARTS: [], DIAMONDS: [], SPADES: [], CLUBS: []}
+if 'dealer_cards' not in st.session_state:
+    st.session_state.dealer_cards = []
+if 'player_cards' not in st.session_state:
+    st.session_state.player_cards = []
+if 'hide_card' not in st.session_state:
+    st.session_state.hide_card = True
+if 'player_bj' not in st.session_state:
+    st.session_state.player_bj = ''
+if 'dealer_bj' not in st.session_state:
+    st.session_state.dealer_bj = ''
+if 'game_over' not in st.session_state:
+    st.session_state.game_over = False
+if 'message' not in st.session_state:
+    st.session_state.message = ''
+
+def hit():
+    new_card = {suits[random.randint(0, 3)]: numbers[random.randint(0, 12)]}
+    for k, v in new_card.items():
+        while v in st.session_state.given_cards[k]:
+            new_card = {suits[random.randint(0, 3)]: numbers[random.randint(0, 12)]}
+            for k2, v2 in new_card.items():
+                k = k2
+                v = v2
+    for key in new_card:
+        st.session_state.given_cards[key] += [new_card[key]]
+    return new_card
+
+def deal():
+    st.session_state.dealer_cards.append(hit())
+    st.session_state.dealer_cards.append(hit())
+    st.session_state.player_cards.append(hit())
+    st.session_state.player_cards.append(hit())
+
+def get_points(cards, hidden=False):
+    points = 0
+    aces = 0
+    start = 0
+    if hidden:
+        start = 1
+    for item in range(start, len(cards)):
+        for k, v in cards[item].items():
+            if v in ['J', 'Q', 'K']:
+                v = 10
+            elif v == 'A':
+                v = 1
+                aces += 1
+            points += v
+    if points <= 11 and aces > 0:
+        points += 10
+    return points
+
+def show_cards(cards, hidden=False):
+    row1, row2, row3, row4, row5, row6 = [], [], [], [], [], []
+    start = 0
+    if hidden:
+        row1.append(' _______ ')
+        row2.append("|       |")
+        row3.append("| ##### |")
+        row4.append("| ##### |")
+        row5.append("| ##### |")
+        row6.append("'_______'")
+        start = 1
+    for item in range(start, len(cards)):
+        for k, v in cards[item].items():
+            if v == 10:
+                row1.append(' _______ ')
+                row2.append("|       |")
+                row3.append(f"| {v}    |")
+                row4.append(f"|   {k}   |")
+                row5.append(f"|    {v} |")
+                row6.append("'_______'")
+            else:
+                row1.append(' _______ ')
+                row2.append("|       |")
+                row3.append(f"| {v}     |")
+                row4.append(f"|   {k}   |")
+                row5.append(f"|     {v} |")
+                row6.append("'_______'")
+
+    st.write(" ".join(row1))
+    st.write(" ".join(row2))
+    st.write(" ".join(row3))
+    st.write(" ".join(row4))
+    st.write(" ".join(row5))
+    st.write(" ".join(row6))
+
+def check_game_status():
+    dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
+    player_points = get_points(st.session_state.player_cards)
+    if (player_points == 21) and (len(st.session_state.player_cards) == 2):
+        st.session_state.hide_card = False
+        st.session_state.player_bj = 'BLACKJACK !!!'
+    if (dealer_points == 21) and (len(st.session_state.dealer_cards) == 2):
+        st.session_state.dealer_bj = 'BLACKJACK !!!'
+    if (dealer_points > 21) or ((player_points > dealer_points) and not st.session_state.hide_card) or (st.session_state.player_bj and not st.session_state.dealer_bj):
+        st.session_state.message = "** YOU WON !! :) **"
+        st.session_state.game_over = True
+    elif (player_points > 21) or ((dealer_points > player_points) and not st.session_state.hide_card) or (st.session_state.dealer_bj and not st.session_state.player_bj):
+        st.session_state.message = "** YOU LOST :( **"
+        st.session_state.game_over = True
+    elif (dealer_points == player_points) and not st.session_state.hide_card:
+        st.session_state.message = "** DRAW :| **"
+        st.session_state.game_over = True
+
+def reset_game():
+    st.session_state.given_cards = {HEARTS: [], DIAMONDS: [], SPADES: [], CLUBS: []}
+    st.session_state.dealer_cards = []
+    st.session_state.player_cards = []
+    st.session_state.hide_card = True
+    st.session_state.player_bj = ''
+    st.session_state.dealer_bj = ''
+    st.session_state.game_over = False
+    st.session_state.message = ''
+    deal()
+
+if st.button("Deal", on_click=reset_game):
+    st.session_state.message = ''
+    deal()
+
+dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
+player_points = get_points(st.session_state.player_cards)
+check_game_status()
+
+st.write(f"Dealer: {dealer_points} {st.session_state.dealer_bj}")
+show_cards(st.session_state.dealer_cards, st.session_state.hide_card)
+st.write(f"\nPlayer: {player_points} {st.session_state.player_bj}")
+show_cards(st.session_state.player_cards)
+
+if not st.session_state.game_over:
+    if st.button("Hit"):
+        st.session_state.player_cards.append(hit())
+        check_game_status()
+    if st.button("Stand"):
+        st.session_state.hide_card = False
+        dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
+        while dealer_points < 17:
+            st.session_state.dealer_cards.append(hit())
+            dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
+        check_game_status()
+
+st.write(st.session_state.message)
+
+if st.session_state.game_over and st.button("Play again"):
+    reset_game()
