@@ -41,22 +41,19 @@ blackjack_logo = '''
 st.code(blackjack_logo, language='text')
 
 # Initialize session state
-if 'given_cards' not in st.session_state:
+def initialize_game():
     st.session_state.given_cards = {HEARTS: [], DIAMONDS: [], SPADES: [], CLUBS: []}
-if 'dealer_cards' not in st.session_state:
     st.session_state.dealer_cards = []
-if 'player_cards' not in st.session_state:
     st.session_state.player_cards = []
-if 'hide_card' not in st.session_state:
     st.session_state.hide_card = True
-if 'player_bj' not in st.session_state:
     st.session_state.player_bj = ''
-if 'dealer_bj' not in st.session_state:
     st.session_state.dealer_bj = ''
-if 'game_over' not in st.session_state:
     st.session_state.game_over = False
-if 'message' not in st.session_state:
     st.session_state.message = ''
+    deal()
+
+if 'given_cards' not in st.session_state:
+    initialize_game()
 
 def hit():
     new_card = {suits[random.randint(0, 3)]: numbers[random.randint(0, 12)]}
@@ -152,19 +149,7 @@ def check_game_status():
         st.session_state.game_over = True
 
 def reset_game():
-    st.session_state.given_cards = {HEARTS: [], DIAMONDS: [], SPADES: [], CLUBS: []}
-    st.session_state.dealer_cards = []
-    st.session_state.player_cards = []
-    st.session_state.hide_card = True
-    st.session_state.player_bj = ''
-    st.session_state.dealer_bj = ''
-    st.session_state.game_over = False
-    st.session_state.message = ''
-    deal()
-
-if st.button("Deal", on_click=reset_game):
-    st.session_state.message = ''
-    deal()
+    initialize_game()
 
 dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
 player_points = get_points(st.session_state.player_cards)
