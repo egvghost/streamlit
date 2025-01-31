@@ -191,7 +191,7 @@ def main():
         break
       else:
         #player_choice = input("\n(H)it, (S)tand ")
-        player_choice = st.radio("Choose your move", ["(H)it", "(S)tand"], index=None) 
+        player_choice = st.radio("Choose your move", ["(H)it", "(S)tand"], key=1) 
         if player_choice == "(H)it":
           player_cards.append(hit())
         elif player_choice == "(S)tand":
@@ -205,9 +205,9 @@ def main():
     # print(f"Player: {player_cards}")
     # print(f"Given cards: {given_cards}")
     #keep_playing = input("\nPlay again? (Y)/(N) ")
-    keep_playing = st.radio("\nPlay again?", ["Yes", "No"], index=None) 
+    keep_playing = st.radio("\nPlay again?", ["Yes", "No"], key=2) 
     while keep_playing.lower() not in ['yes', 'no']:
-      keep_playing = st.radio("\nPlay again?", ["Yes", "No"], index=None) 
+      keep_playing = st.radio("\nPlay again?", ["Yes", "No"], key=2) 
     if keep_playing.lower() == 'n':
       break
 
