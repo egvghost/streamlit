@@ -179,13 +179,17 @@ if not st.session_state.game_over:
                 check_game_status()
                 st.rerun()
                 time.sleep(1)
-            check_game_status()
-            st.rerun()
     with col3:
         pass
 
-st.write(st.session_state.message)
+col1, col2, col3 = st.columns([1, 1, 7], gap="small")
+with col1:
+    if st.session_state.game_over and st.button("Play again", key="play_again"):
+        reset_game()
+        st.rerun()
+with col2:
+    st.write(st.session_state.message)
+with col3:
+    pass
 
-if st.session_state.game_over and st.button("Play again", key="play_again"):
-    reset_game()
-    st.rerun()
+
