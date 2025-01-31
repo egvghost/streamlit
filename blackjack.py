@@ -40,21 +40,6 @@ blackjack_logo = '''
 # Display the logo
 st.code(blackjack_logo, language='text')
 
-# Initialize session state
-def initialize_game():
-    st.session_state.given_cards = {HEARTS: [], DIAMONDS: [], SPADES: [], CLUBS: []}
-    st.session_state.dealer_cards = []
-    st.session_state.player_cards = []
-    st.session_state.hide_card = True
-    st.session_state.player_bj = ''
-    st.session_state.dealer_bj = ''
-    st.session_state.game_over = False
-    st.session_state.message = ''
-    deal()
-
-if 'given_cards' not in st.session_state:
-    initialize_game()
-
 def hit():
     new_card = {suits[random.randint(0, 3)]: numbers[random.randint(0, 12)]}
     for k, v in new_card.items():
@@ -72,6 +57,21 @@ def deal():
     st.session_state.dealer_cards.append(hit())
     st.session_state.player_cards.append(hit())
     st.session_state.player_cards.append(hit())
+
+# Initialize session state
+def initialize_game():
+    st.session_state.given_cards = {HEARTS: [], DIAMONDS: [], SPADES: [], CLUBS: []}
+    st.session_state.dealer_cards = []
+    st.session_state.player_cards = []
+    st.session_state.hide_card = True
+    st.session_state.player_bj = ''
+    st.session_state.dealer_bj = ''
+    st.session_state.game_over = False
+    st.session_state.message = ''
+    deal()
+
+if 'given_cards' not in st.session_state:
+    initialize_game()
 
 def get_points(cards, hidden=False):
     points = 0
