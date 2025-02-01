@@ -185,8 +185,8 @@ if not st.session_state.game_over:
                 check_game_status()
                 time.sleep(1)
                 st.rerun()
-            dealer_turn = False
             st.rerun()
+        dealer_turn = False
     with col3:
         pass
 
