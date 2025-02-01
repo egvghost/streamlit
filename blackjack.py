@@ -164,7 +164,6 @@ show_cards(st.session_state.player_cards)
 
 # Adding unique keys to buttons to force rerun
 if not st.session_state.game_over:
-    dealer_turn = False
     col1, col2, col3 = st.columns([1, 1, 7], gap="small")
     with col1:
         if st.button("Hit", key="hit"):
@@ -172,22 +171,15 @@ if not st.session_state.game_over:
             check_game_status()
             st.rerun()
     with col2:
-        if st.button("Stand", key="stand") or dealer_turn:
+        if st.button("Stand", key="stand"):
             st.session_state.hide_card = False
             dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
             check_game_status()
-            if not dealer_turn:
-                dealer_turn = True
-                st.rerun()
             while dealer_points < 17:
                 print("I'm in")
                 st.session_state.dealer_cards.append(hit())
                 dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
                 check_game_status()
-                time.sleep(1)
-                if dealer_points >= 17:
-                    dealer_turn = False
-                st.rerun()
             st.rerun()
     with col3:
         pass
