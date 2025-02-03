@@ -17,10 +17,10 @@ import time
 import streamlit as st
 
 # Constants:
-HEARTS = ♥️ #chr(9829)
-DIAMONDS = ♦️ #chr(9830)
-SPADES = ♠️ #chr(9824)
-CLUBS = ♣️ #chr(9827)
+HEARTS = chr(9829)
+DIAMONDS = chr(9830)
+SPADES = chr(9824)
+CLUBS = chr(9827)
 numbers = ['A', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K']
 suits = [HEARTS, DIAMONDS, SPADES, CLUBS]
 
