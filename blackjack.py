@@ -187,7 +187,7 @@ if not st.session_state.game_over:
             st.session_state.hide_card = False
             dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
             check_game_status()
-            st.rerun()
+            update_decks(dealer_placeholder, player_placeholder)
             
             while dealer_points < 17:
                 time.sleep(1)
