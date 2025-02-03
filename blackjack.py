@@ -153,35 +153,49 @@ def check_game_status():
 def reset_game():
     initialize_game()
 
-dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
-player_points = get_points(st.session_state.player_cards)
-check_game_status()
+def update_decks(dealer_placeholder, player_placeholder):
+    dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
+    player_points = get_points(st.session_state.player_cards)
+    
+    with dealer_placeholder.container():
+        st.write(f"Dealer: {dealer_points} {st.session_state.dealer_bj}")
+        show_cards(st.session_state.dealer_cards, st.session_state.hide_card)
+    
+    with player_placeholder.container():
+        st.write(f"\nPlayer: {player_points} {st.session_state.player_bj}")
+        show_cards(st.session_state.player_cards)
 
-st.write(f"Dealer: {dealer_points} {st.session_state.dealer_bj}")
-show_cards(st.session_state.dealer_cards, st.session_state.hide_card)
-st.write(f"\nPlayer: {player_points} {st.session_state.player_bj}")
-show_cards(st.session_state.player_cards)
+# Initialize placeholders
+dealer_placeholder = st.empty()
+player_placeholder = st.empty()
 
-# Adding unique keys to buttons to force rerun
+# Initial update of decks
+update_decks(dealer_placeholder, player_placeholder)
+
 if not st.session_state.game_over:
     col1, col2, col3 = st.columns([1, 1, 7], gap="small")
+    
     with col1:
         if st.button("Hit", key="hit"):
             st.session_state.player_cards.append(hit())
             check_game_status()
+            update_decks(dealer_placeholder, player_placeholder)
             st.rerun()
+    
     with col2:
         if st.button("Stand", key="stand"):
             st.session_state.hide_card = False
             dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
             check_game_status()
+            
             while dealer_points < 17:
                 st.session_state.dealer_cards.append(hit())
                 dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
                 check_game_status()
+                update_decks(dealer_placeholder, player_placeholder)
+                time.sleep(1)
+            
             st.rerun()
-    with col3:
-        pass
 
 st.write(st.session_state.message)
 
