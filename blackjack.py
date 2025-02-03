@@ -141,13 +141,13 @@ def check_game_status():
     if (dealer_points == 21) and (len(st.session_state.dealer_cards) == 2):
         st.session_state.dealer_bj = 'BLACKJACK !!!'
     if (dealer_points > 21) or ((player_points > dealer_points) and not st.session_state.hide_card) or (st.session_state.player_bj and not st.session_state.dealer_bj):
-        st.session_state.message = "** YOU WON !! :) **"
+        st.session_state.message = "** YOU WIN ! 😃 **"
         st.session_state.game_over = True
     elif (player_points > 21) or ((dealer_points > 17) and (dealer_points > player_points) and not st.session_state.hide_card) or (st.session_state.dealer_bj and not st.session_state.player_bj):
-        st.session_state.message = "** YOU LOST :( **"
+        st.session_state.message = "** YOU LOSE ☹️ **"
         st.session_state.game_over = True
     elif (dealer_points > 17) and (dealer_points == player_points) and not st.session_state.hide_card:
-        st.session_state.message = "** DRAW :| **"
+        st.session_state.message = "** DRAW 😐 **"
         st.session_state.game_over = True
 
 def reset_game():
