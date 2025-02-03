@@ -180,7 +180,7 @@ if not st.session_state.game_over:
             st.session_state.player_cards.append(hit())
             check_game_status()
             update_decks(dealer_placeholder, player_placeholder)
-            #st.rerun()
+            st.rerun()
     
     with col2:
         if st.button("Stand", key="stand"):
@@ -189,13 +189,13 @@ if not st.session_state.game_over:
             check_game_status()
             
             while dealer_points < 17:
+                time.sleep(1)
                 st.session_state.dealer_cards.append(hit())
                 dealer_points = get_points(st.session_state.dealer_cards, st.session_state.hide_card)
                 check_game_status()
                 update_decks(dealer_placeholder, player_placeholder)
-                time.sleep(1)
             
-            #st.rerun()
+            st.rerun()
 
 st.write(st.session_state.message)
 
